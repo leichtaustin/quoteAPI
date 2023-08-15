@@ -13,12 +13,25 @@ app.listen(PORT, () => {
 })
 
 app.get('/api/quotes', (req, res, next) => {
-    res.send(quotes);
+    console.log(req.query);
+    if(req.query.person) {
+        const personQuote = quotes.filter(quote => quote.person === req.query.person);
+        if(personQuote) {
+            res.send({quotes: personQuote});
+        } else {
+            res.send([])
+        }
+
+        
+    } else {
+        res.send(quotes);
+    }
+    
 })
 
 app.get('/api/quotes/random', (req, res, next) => {
     const randomQuote = {
-        quote: getRandomElement(quotes).quote,
+        randomQuote: getRandomElement(quotes),
     };
 
     if(randomQuote) {
