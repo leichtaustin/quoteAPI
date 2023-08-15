@@ -20,9 +20,7 @@ app.get('/api/quotes', (req, res, next) => {
             res.send({quotes: personQuote});
         } else {
             res.send([])
-        }
-
-        
+        }      
     } else {
         res.send(quotes);
     }
@@ -38,5 +36,18 @@ app.get('/api/quotes/random', (req, res, next) => {
         res.send(randomQuote);
     } else {
         res.status(404).send('Unable to find quote');
+    }
+})
+
+app.post('/api/quotes', (req, res, next) => {
+    const quoteToAdd = {
+        quote: req.query.quote,
+        person: req.query.person,
+    }
+    if(quoteToAdd.quote && quoteToAdd.person) {
+        quotes.push(quoteToAdd);
+        res.status(201).send(quoteToAdd);
+    } else {
+        res.status(404).send();
     }
 })
